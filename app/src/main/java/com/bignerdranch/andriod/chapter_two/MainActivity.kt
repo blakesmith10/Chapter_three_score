@@ -1,14 +1,13 @@
-package com.bignerdranch.andriod.chapter_two
+package com.bignerdranch.android.chapter_two
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bignerdranch.andriod.chapter_two.R
 import com.bignerdranch.andriod.chapter_two.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    // private lateinit var trueButton: Button
-    // private lateinit var falseButton: Button
 
     private val questionBank = listOf(
         Question(R.string.question_australia, true),
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     )
 
     private var currentIndex = 0
-    private lateinit var binding:ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
