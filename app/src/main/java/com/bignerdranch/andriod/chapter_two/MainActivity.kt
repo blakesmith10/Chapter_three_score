@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true)
 
-        )
+    )
 
-        private var currentIndex = 0
+    private var currentIndex = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,28 +35,28 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.trueButton.setOnClickListener {
-           /* Toast.makeText(
-                this,
-                R.string.correct_toast,
-                Toast.LENGTH_SHORT
-            )
-                .show()
+            /* Toast.makeText(
+                 this,
+                 R.string.correct_toast,
+                 Toast.LENGTH_SHORT
+             )
+                 .show()
 
-            */
+             */
 
             checkAnswer(true)
         }
 
 
         binding.falseButton.setOnClickListener {
-           /* Toast.makeText(
-                this,
-                R.string.incorrect_toast,
-                Toast.LENGTH_SHORT
-            )
-                .show()
+            /* Toast.makeText(
+                 this,
+                 R.string.incorrect_toast,
+                 Toast.LENGTH_SHORT
+             )
+                 .show()
 
-            */
+             */
 
             checkAnswer(false)
         }
@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-       // val questionTextResId = questionBank[currentIndex].textResId
-       // binding.questionTextView.setText(questionTextResId)
+        // val questionTextResId = questionBank[currentIndex].textResId
+        // binding.questionTextView.setText(questionTextResId)
         updateQuestion()
     }
 
