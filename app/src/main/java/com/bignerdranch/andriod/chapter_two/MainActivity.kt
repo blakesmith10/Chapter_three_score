@@ -31,6 +31,15 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
 
+        val previousQuestionListener = View.OnClickListener {
+            currentIndex = if (currentIndex - 1 < 0) {
+                questionBank.size - 1
+            } else {
+                currentIndex - 1
+            }
+            updateQuestion()
+        }
+
         // Set click listeners for buttons
         binding.trueButton.setOnClickListener {
             checkAnswer(true)
@@ -45,8 +54,12 @@ class MainActivity : AppCompatActivity() {
         // Set click listener for the TextView to advance to the next question
         binding.questionTextView.setOnClickListener(nextQuestionListener)
 
+        binding.previousButton.setOnClickListener(previousQuestionListener)
+
         updateQuestion()
     }
+
+
 
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
