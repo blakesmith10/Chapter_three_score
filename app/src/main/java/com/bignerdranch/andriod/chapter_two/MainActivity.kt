@@ -23,6 +23,18 @@ class MainActivity : AppCompatActivity() {
     private var currentIndex = 0
     private lateinit var binding: ActivityMainBinding
 
+
+    private fun isAnswered(index:Int) {
+        if (questionBank[index].answered) {
+            binding.trueButton.isEnabled = false
+            binding.falseButton.isEnabled = false
+        }
+        else{
+            binding.trueButton.isEnabled = true
+            binding.falseButton.isEnabled = true
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         // Create a common click listener for advancing to the next question
         val nextQuestionListener = View.OnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size
+            isAnswered(currentIndex)
             updateQuestion()
         }
 
@@ -42,24 +55,32 @@ class MainActivity : AppCompatActivity() {
             } else {
                 currentIndex - 1
             }
+            isAnswered(currentIndex)
             updateQuestion()
         }
 
         // Set click listeners for buttons
         binding.trueButton.setOnClickListener {
+            binding.trueButton.isEnabled = false
+            binding.falseButton.isEnabled = false
+            questionBank[currentIndex].answered = true
             checkAnswer(true)
         }
 
         binding.falseButton.setOnClickListener {
+            binding.trueButton.isEnabled = false
+            binding.falseButton.isEnabled = false
+            questionBank[currentIndex].answered = true
             checkAnswer(false)
         }
 
         binding.nextButton.setOnClickListener(nextQuestionListener)
 
+        binding.previousButton.setOnClickListener(previousQuestionListener)
+
+
         // Set click listener for the TextView to advance to the next question
         binding.questionTextView.setOnClickListener(nextQuestionListener)
-
-        binding.previousButton.setOnClickListener(previousQuestionListener)
 
         updateQuestion()
     }
