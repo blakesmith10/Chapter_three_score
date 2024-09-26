@@ -21,15 +21,14 @@ class MainActivity : AppCompatActivity() {
     )
 
     private var currentIndex = 0
+    private var correctAnswers = 0
     private lateinit var binding: ActivityMainBinding
 
-
-    private fun isAnswered(index:Int) {
+    private fun isAnswered(index: Int) {
         if (questionBank[index].answered) {
             binding.trueButton.isEnabled = false
             binding.falseButton.isEnabled = false
-        }
-        else{
+        } else {
             binding.trueButton.isEnabled = true
             binding.falseButton.isEnabled = true
         }
@@ -65,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             binding.falseButton.isEnabled = false
             questionBank[currentIndex].answered = true
             checkAnswer(true)
+            if (isQuizComplete() || currentIndex == questionBank.size - 1) showScore()
         }
 
         binding.falseButton.setOnClickListener {
@@ -72,12 +72,12 @@ class MainActivity : AppCompatActivity() {
             binding.falseButton.isEnabled = false
             questionBank[currentIndex].answered = true
             checkAnswer(false)
+            if (isQuizComplete() || currentIndex == questionBank.size - 1) showScore()
         }
 
         binding.nextButton.setOnClickListener(nextQuestionListener)
 
         binding.previousButton.setOnClickListener(previousQuestionListener)
-
 
         // Set click listener for the TextView to advance to the next question
         binding.questionTextView.setOnClickListener(nextQuestionListener)
@@ -117,12 +117,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkAnswer(userAnswer: Boolean) {
         val correctAnswer = questionBank[currentIndex].answer
-        val messageResId = if (userAnswer == correctAnswer) {
-            R.string.correct_toast
+        if (userAnswer == correctAnswer) {
+            correctAnswers++
+            Toast.makeText(this, R.string.correct_toast, Toast.LENGTH_SHORT).show()
         } else {
-            R.string.incorrect_toast
+            Toast.makeText(this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun isQuizComplete(): Boolean {
+        return questionBank.all { it.answered }
+    }
+
+    private fun showScore() {
+        val score = (correctAnswers.toDouble() / questionBank.size) * 100
+        val scoreString = String.format("%.1f %%", score)
+        Toast.makeText(this, "Your score: $scoreString", Toast.LENGTH_LONG).show()
+        resetQuiz()
+    }
+
+    private fun resetQuiz() {
+        correctAnswers = 0
+        for (question in questionBank) {
+            question.answered = false
+        }
+        currentIndex = 0
+        updateQuestion()
+        isAnswered(currentIndex)
     }
 }
+
 
